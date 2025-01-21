@@ -55,6 +55,10 @@ class FileIterator:
         label = doc["_source"].get("twitter_kkol_engagement_count", 0)
         label = 1 if label > 0 else 0
         return doc, label
+    
+    def __del__(self):
+        for file in self.files:
+            file.close()
 
 
 def load_data(files, max_size=None):
@@ -94,14 +98,18 @@ if __name__ == "__main__":
         [f"./data/{file}" for file in data_file_names], reverse=True
     )[: num_train_day + num_val_day]
 
-    print("loading data...")
-    testset, test_label = load_data(data_file_paths[:num_val_day],max_size=max_test_size)
-    print(f"testset: {data_file_paths[:num_val_day]}")
+    # print("loading data...")
+    # testset, test_label = load_data(data_file_paths[:num_val_day],max_size=max_test_size)
+    # print(f"testset: {data_file_paths[:num_val_day]}")
 
-    # trainset, train_label = load_data(data_file_paths[:num_val_day])
-    # print(f"trainset: {data_file_paths[:num_val_day]}")
     train_files = data_file_paths[num_val_day:]
     print(f"trainset: {train_files}")
+
+    test_files = data_file_paths[:num_val_day]
+    print(f"testset: {test_files}")
+    test_iterator = FileIterator(test_files, chunk_size=max_test_size)
+    testset, test_label = next(test_iterator)
+    test_iterator.__del__()
 
     model = EngagementPredictor()
     loss_fn = torch.nn.BCELoss()
@@ -128,7 +136,6 @@ if __name__ == "__main__":
             i += batch_size
             total_loss += loss
 
-        print(epoch, num_epochs)
         if epoch % log_interval == 0 or epoch == num_epochs:
             model.eval()
             with torch.no_grad():
