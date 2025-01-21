@@ -71,5 +71,5 @@ if __name__ == "__main__":
             )
             with open(f"./data/dataset_{date}.jsonl", "a") as f:
                 for doc in scanned_data:
-                    print("got doc")
+                    # print("got doc")
                     f.write(json.dumps(doc) + "\n")

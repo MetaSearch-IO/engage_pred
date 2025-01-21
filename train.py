@@ -38,6 +38,8 @@ if __name__ == "__main__":
     )[: num_train_day + num_val_day]
     testset, test_label = load_data(data_file_paths[num_val_day:])
     trainset, train_label = load_data(data_file_paths[:num_val_day])
+    print(f"trainset: {data_file_paths[:num_val_day]}")
+    print(f"testset: {data_file_paths[num_val_day:]}")
 
     model = EngagementPredictor()
     loss_fn = torch.nn.BCELoss()
