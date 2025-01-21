@@ -69,7 +69,7 @@ if __name__ == "__main__":
             scanned_data = helpers.scan(
                 os_client, query=query, index="twitter", size=1000, scroll="1m"
             )
-            with open(f"dataset_{date}.jsonl", "a") as f:
+            with open(f"./data/dataset_{date}.jsonl", "a") as f:
                 for doc in scanned_data:
                     print("got doc")
                     f.write(json.dumps(doc) + "\n")
