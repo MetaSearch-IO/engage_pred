@@ -4,4 +4,4 @@ datetime
 pydantic
 numpy
 scikit-learn
-opensearchpy
+opensearch-py
