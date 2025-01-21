@@ -1,0 +1,7 @@
+torch 
+fastapi
+datetime
+pydantic
+numpy
+scikit-learn
+opensearchpy

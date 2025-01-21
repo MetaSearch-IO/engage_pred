@@ -85,3 +85,4 @@ if __name__ == "__main__":
             print(
                 f"epoch-{epoch}--train_loss:{total_loss/epoch}--val_loss:{test_loss}--test_auc:{test_auc}"
             )
+        torch.save(best_model, "./saved_model.pth")
